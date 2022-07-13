@@ -1,0 +1,6 @@
+
+
+NODE_ENV=production
+
+ALERTACTION_CFG=/var/tmp/alertaction_main.json
+
