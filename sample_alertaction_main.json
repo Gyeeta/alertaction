@@ -1,0 +1,8 @@
+
+{
+		"ShyamaHostArr" 		:	[ "shyama1.local", "shyama2.local" ],
+		"ShyamaPortArr"			:	[ 10037, 10037 ],
+		
+		"logFile"			:	"/var/tmp/gyeeta_action.log"
+}
+
