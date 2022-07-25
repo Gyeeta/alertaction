@@ -11,7 +11,7 @@ const			MAX_CHILD_EXITS = 10, MAX_LOG_SZ = 30 * 1024 * 1024;
 const 			{logrotate} = require('./gyutil.js');
 
 const 			{initGlobalConfig} = require('./gyconfig.js');
-const			gyconfig = initGlobalConfig();
+const			gyconfig = initGlobalConfig(false);
 
 let			nodeexits = 0, logtimer;
 

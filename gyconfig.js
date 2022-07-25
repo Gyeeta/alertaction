@@ -12,7 +12,7 @@ const			{safetypeof} = require("./gyutil.js");
 
 let			gyconfig;
 
-function initGlobalConfig()
+function initGlobalConfig(printcfg = true)
 {
 	const			env = process.env;
 	let			cstr = '{\n\t';
@@ -44,7 +44,9 @@ function initGlobalConfig()
 
 	cstr += `"tinit" : "${moment().format()}"\n}`;
 
-	console.info(`Alert Action Config options : \n${cstr}`);
+	if (printcfg) {
+		console.info(`Alert Action Config options : \n${cstr}`);
+	}
 
 	try {
 		gyconfig = JSON.parse(cstr);
