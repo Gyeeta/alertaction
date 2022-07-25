@@ -2,5 +2,7 @@
 
 NODE_ENV=production
 
-ALERTACTION_CFG=/var/tmp/alertaction_main.json
+CFG_SHYAMA_HOSTS='[ "localhost.local", "127.0.0.1" ]'
+CFG_SHYAMA_PORTS='[ 10037, 20037 ]'
+CFG_LOGFILE=/var/tmp/gyeeta_action.log
 

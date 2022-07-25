@@ -11,13 +11,7 @@ const			MAX_CHILD_EXITS = 10, MAX_LOG_SZ = 30 * 1024 * 1024;
 const 			{logrotate} = require('./gyutil.js');
 
 const 			{initGlobalConfig} = require('./gyconfig.js');
-
-if (!process.env.ALERTACTION_CFG) {
-	console.error('No Valid Config File specified in ALERTACTION_CFG environment variable or .env file : Please specify a valid file path first');
-	process.exit(1);
-}
-
-const			gyconfig = initGlobalConfig(process.env.ALERTACTION_CFG, true /* isAlertAction */);
+const			gyconfig = initGlobalConfig();
 
 let			nodeexits = 0, logtimer;
 
@@ -50,7 +44,7 @@ const child = new (forever.Monitor)('gy_alertaction.js', {
 child.on('restart', function() {
 	// console.error('Restarting Gyeeta Alert Action Handler since exit detected');
 
-	if (!logtimer) {
+	if (!logtimer && gyconfig.logFile) {
 		logtimer = setInterval(logrotate, 10000, gyconfig.logFile, MAX_LOG_SZ);
 	}
 });
@@ -59,7 +53,7 @@ child.on('exit:code', function(code) {
 	nodeexits++;
 	// console.error('Gyeeta Alert Action Handler exited after with code ' + code + ` : Total exits so far = ${nodeexits}`);
 
-	if (logtimer) {
+	if (logtimer && gyconfig.logFile) {
 		clearInterval(logtimer);
 		logtimer = null;
 	}
@@ -68,5 +62,7 @@ child.on('exit:code', function(code) {
 
 child.start();
 
-logtimer = setInterval(logrotate, 10000, gyconfig.logFile, MAX_LOG_SZ);
+if (gyconfig.logFile) {
+	logtimer = setInterval(logrotate, 10000, gyconfig.logFile, MAX_LOG_SZ);
+}
 

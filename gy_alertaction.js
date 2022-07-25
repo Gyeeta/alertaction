@@ -7,7 +7,7 @@ const 		process = require('process');
 const 		os = require('os');
 
 if (process.argv.length === 3 && process.argv[2] === '--version') {
-	console.log("Gyeeta Alert Action Handler Version : ", require('./gyeeta_comm.js').NODE_VERSION_STR);
+	console.log("Alert Action Agent Version : ", require('./gyeeta_comm.js').NODE_VERSION_STR);
 	process.exit(0);
 }
 
@@ -18,13 +18,7 @@ const 		chalk = require('chalk');
 		});
 
 const 		{initGlobalConfig} = require('./gyconfig.js');
-
-if (!process.env.ALERTACTION_CFG) {
-	console.error('No Valid Config File specified in ALERTACTION_CFG environment variable or .env file : Please specify a valid file path first');
-	process.exit(1);
-}
-
-const		gyconfig = initGlobalConfig(process.env.ALERTACTION_CFG, true /* isAlertAction */);
+const		gyconfig = initGlobalConfig();
 
 const 		{GyeetaHandler, ErrorTypes, setReqEventCallback} = require('./gyeeta_comm.js');
 const		{safetypeof, printResourceUsage} = require("./gyutil.js");
@@ -37,11 +31,6 @@ const		gWebhook = require('./webhook_action.js');
 const		gidentifier = `${os.hostname()} PID ${process.pid} ${os.uptime()}`;
 
 console.log(`Gyeeta Alert Action Handler Starting now : Identifier used is ${gidentifier}`);
-
-
-if (process.env.NODE_ENV !== "production") {
-	console.log('NOTE : Using Development Node Settings. Please set .env NODE_ENV=production if Production settings needed');
-}
 
 const 		gyeetaHdlr = new GyeetaHandler(gyconfig.ShyamaHostArr, gyconfig.ShyamaPortArr, gidentifier, 1, 2, true /* is_action_conn */);
 
@@ -205,21 +194,21 @@ module.exports = {
 
 
 process.on('exit', (code) => {
-	console.log('Alert Action Handler exiting now with code : ', code);
+	console.log('Alert Action Agent exiting now with code : ', code);
 });
 
 process.on('uncaughtException', (err, origin) => {
-	fs.writeSync(process.stderr.fd, `[ERROR]: Alert Action Handler Caught Unhandled Exception : Exiting now... : ${err}\n` + `Exception origin: ${origin}`);
+	fs.writeSync(process.stderr.fd, `[ERROR]: Alert Action Agent Caught Unhandled Exception : Exiting now... : ${err}\n` + `Exception origin: ${origin}`);
 
 	process.exit(1);
 });
 
 process.on('unhandledRejection', (reason, promise) => {
-	console.error('Unhandled Rejection seen at :', promise, ' reason : ', reason);
+	console.error('Alert Action Agent Unhandled Rejection seen at :', promise, ' reason : ', reason);
 });
 
 process.on('SIGHUP', () => {
-	console.log('Alert Action Handler Controlling Terminal has exited. But continuing...');
+	console.log('Alert Action Agent Controlling Terminal has exited. But continuing...');
 });
 
 
