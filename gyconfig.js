@@ -23,11 +23,21 @@ function initGlobalConfig(printcfg = true)
 		console.error(`Invalid Alert Action Config : Mandatory Environment Config  'CFG_SHYAMA_HOSTS' not found : Please set CFG_SHYAMA_HOSTS value in .env file`);
 		process.exit(1);
 	}	
+	
+	if (env.CFG_SHYAMA_HOSTS[0] !== '[') {
+		console.error(`Invalid Alert Action Config : Mandatory Environment Config CFG_SHYAMA_HOSTS=${env.CFG_SHYAMA_HOSTS} not of JSON Array format`);
+		process.exit(1);
+	}	
 
 	cstr += `"ShyamaHostArr" : ${env.CFG_SHYAMA_HOSTS},\n\t`;
 
 	if (!env.CFG_SHYAMA_PORTS) {
 		console.error(`Invalid Alert Action Config : Mandatory Environment Config  'CFG_SHYAMA_PORTS' not found : Please set CFG_SHYAMA_PORTS value in .env file`);
+		process.exit(1);
+	}	
+
+	if (env.CFG_SHYAMA_PORTS[0] !== '[') {
+		console.error(`Invalid Alert Action Config : Mandatory Environment Config  CFG_SHYAMA_PORTS=${env.CFG_SHYAMA_PORTS} not of JSON Array format`);
 		process.exit(1);
 	}	
 
@@ -52,17 +62,20 @@ function initGlobalConfig(printcfg = true)
 		gyconfig = JSON.parse(cstr);
 	}
 	catch(e) {
+		if (!printcfg) {
+			console.info(`Alert Action Config options : \n${cstr}`);
+		}	
 		console.error(`[ERROR]: Alert Action Config not in JSON format : ${e}\n`);
 		process.exit(1);
 	}	
 
 	if (!Array.isArray(gyconfig.ShyamaHostArr)) {
-		console.error(`Invalid Alert Action Config : Mandatory Option CFG_SHYAMA_HOSTS not in JSON Array format`);
+		console.error(`Invalid Alert Action Config : Mandatory Environment Config CFG_SHYAMA_HOSTS=${env.CFG_SHYAMA_HOSTS} not in JSON Array format`);
 		process.exit(1);
 	}	
 
 	if (!Array.isArray(gyconfig.ShyamaPortArr)) {
-		console.error(`Invalid Alert Action Config : Mandatory Option CFG_SHYAMA_PORTS not in JSON Array format`);
+		console.error(`Invalid Alert Action Config : Mandatory Environment Config  CFG_SHYAMA_PORTS=${env.CFG_SHYAMA_PORTS} not in JSON Array format`);
 		process.exit(1);
 	}	
 
