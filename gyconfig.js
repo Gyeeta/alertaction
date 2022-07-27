@@ -48,7 +48,7 @@ function initGlobalConfig(printcfg = true)
 			cstr += `"logFile" : "${env.CFG_LOGFILE}",\n\t`;
 		}
 		else {
-			cstr += `"logFile" : ${env.CFG_SHYAMA_PORTS},\n\t`;
+			cstr += `"logFile" : ${env.CFG_LOGFILE},\n\t`;
 		}	
 	}	
 
