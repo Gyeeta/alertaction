@@ -32,7 +32,7 @@ process.on('uncaughtException', (err, origin) => {
 
 const child = new (forever.Monitor)('gy_alertaction.js', {
 	max		: MAX_CHILD_EXITS,
-	silent		: true,
+	silent		: gyconfig.logFile ? true : false,
 	args		: [],
 	killTree	: true,		// Kill all children on exit
 

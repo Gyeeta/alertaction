@@ -1,8 +1,8 @@
 
 
-NODE_ENV=production
-
-CFG_SHYAMA_HOSTS='[ "localhost.local", "127.0.0.1" ]'
+CFG_SHYAMA_HOSTS='[ "shyama1_host.local", "shyama2_host.local" ]'
 CFG_SHYAMA_PORTS='[ 10037, 20037 ]'
+
+# If CFG_LOGFILE not specified output is to stdout
 CFG_LOGFILE=/var/tmp/gyeeta_action.log
 

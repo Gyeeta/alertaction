@@ -40,15 +40,6 @@ print_ps()
 '
 }
 
-print_configure()
-{
-	echo 
-	echo ' Option <configure> - To configure Gyeeta Alert Action Handler settings : 
-
- ./runalertaction.sh configure
-'
-}
-
 print_version()
 {
 	echo
@@ -63,7 +54,7 @@ print_complete_set()
 printf "\n\n		Complete Set of Options : \n"
 
 printf "	
-	configure 	ps 	restart 	start		stop 	version 
+	ps 	restart 	start		stop 	version 
 
 	For Help on any option : please type 
 	
@@ -188,6 +179,12 @@ case "$1" in
 
 		shift 1
 
+		ulimit -c 0
+
+		if [ "x""$NODE_ENV" = "x" ]; then
+			export NODE_ENV='production'
+		fi	
+
 		( ./node ./gy_actionforever.js "$@" &) &
 
 		sleep 5
@@ -229,11 +226,6 @@ case "$1" in
 
 		;;
 
-	configure)
-
-		exit 0
-		;;
-
 
 	ps)
 
@@ -253,6 +245,18 @@ case "$1" in
 		exit 0
 
 		;;
+
+
+	printpids)
+		shift
+
+		GLOB_PRINT_PID=1
+		
+		gy_pgrep
+
+		exit 0;
+		;;
+
 
 	restart)
 	
