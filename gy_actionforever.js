@@ -1,9 +1,11 @@
 
 'use strict';
 
-			require('dotenv').config();
-			
 const			fs = require('fs');
+const 			process = require('process');
+
+			require('dotenv').config({ path: process.env.CFG_ENV });
+
 const 			forever = require('forever-monitor');
 
 const			MAX_CHILD_EXITS = 10, MAX_LOG_SZ = 30 * 1024 * 1024;
@@ -20,11 +22,11 @@ process.on('SIGHUP', () => {
 });
 
 process.on('exit', (code) => {
-	// console.log('Forever Action Handler exiting now with code : ', code);
+	// console.log('Forever Alert Agent exiting now with code : ', code);
 });
 
 process.on('uncaughtException', (err, origin) => {
-	// fs.writeSync(process.stderr.fd, `[ERROR]: Forever Action Handler Caught Unhandled Exception : ${err}` + ` : Exception origin : ${origin}`);
+	// fs.writeSync(process.stderr.fd, `[ERROR]: Forever Alert Agent Caught Unhandled Exception : ${err}` + ` : Exception origin : ${origin}`);
 
 	// Keep running...
 });
@@ -42,7 +44,7 @@ const child = new (forever.Monitor)('gy_alertaction.js', {
 });
 
 child.on('restart', function() {
-	// console.error('Restarting Gyeeta Alert Action Handler since exit detected');
+	// console.error('Restarting Gyeeta Alert Agent since exit detected');
 
 	if (!logtimer && gyconfig.logFile) {
 		logtimer = setInterval(logrotate, 10000, gyconfig.logFile, MAX_LOG_SZ);
@@ -51,7 +53,7 @@ child.on('restart', function() {
 
 child.on('exit:code', function(code) {
 	nodeexits++;
-	// console.error('Gyeeta Alert Action Handler exited after with code ' + code + ` : Total exits so far = ${nodeexits}`);
+	// console.error('Gyeeta Alert Agent exited after with code ' + code + ` : Total exits so far = ${nodeexits}`);
 
 	if (logtimer && gyconfig.logFile) {
 		clearInterval(logtimer);

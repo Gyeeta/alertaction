@@ -6,7 +6,7 @@ export PATH
 print_start()
 {
 	echo 
-	echo ' Option <start> - To start the Gyeeta Alert Action Handler : 
+	echo ' Option <start> - To start the Gyeeta Alert Agent : 
 
  ./runalertaction.sh start
 '
@@ -15,7 +15,7 @@ print_start()
 print_stop()
 {
 	echo 
-	echo ' Option <stop> - To stop the Gyeeta Alert Action Handler components : 
+	echo ' Option <stop> - To stop the Gyeeta Alert Agent components : 
 
  ./runalertaction.sh stop
 '
@@ -24,7 +24,7 @@ print_stop()
 print_restart()
 {
 	echo 
-	echo ' Option <restart> - To restart the Gyeeta Alert Action Handler components : 
+	echo ' Option <restart> - To restart the Gyeeta Alert Agent components : 
 
  ./runalertaction.sh restart
 '
@@ -34,7 +34,7 @@ print_restart()
 print_ps()
 {
 	echo
-	echo ' Option <ps> -	To check the PID status of Gyeeta Alert Action Handler components
+	echo ' Option <ps> -	To check the PID status of Gyeeta Alert Agent components
 
  ./runalertaction.sh ps
 '
@@ -115,7 +115,7 @@ node_start_validate()
 
 	gy_pgrep
 	if [ -n "$GLOB_PGREP_PID" ]; then
-		printf "\nNOTE : Gyeeta Alert Action component(s) already running : PID(s) $GLOB_PGREP_PID\n\n"
+		printf "\nNOTE : Gyeeta Alert Agent component(s) already running : PID(s) $GLOB_PGREP_PID\n\n"
 		printf "Please run \"$0 restart\" if you need to restart the components...\n\n"
 
 		exit 1
@@ -175,7 +175,7 @@ case "$1" in
 
 		node_start_validate
 
-		printf "\n\tStarting Gyeeta Alert Action Handler components...\n\n"
+		printf "\n\tStarting Gyeeta Alert Agent components...\n\n"
 
 		shift 1
 
@@ -193,7 +193,7 @@ case "$1" in
 
 		gy_pgrep 
 		if [ -z "$GLOB_PGREP_PID" ]; then
-			printf "\n\tERROR : Gyeeta Alert Action Handler process not running. Please check log for ERRORs if no errors already printed...\n\n"
+			printf "\n\tERROR : Gyeeta Alert Agent process not running. Please check log for ERRORs if no errors already printed...\n\n"
 			exit 1
 		fi
 
@@ -204,7 +204,7 @@ case "$1" in
 	
 	stop)
 
-		printf "\n\tStopping Gyeeta Alert Action Handler components : "
+		printf "\n\tStopping Gyeeta Alert Agent components : "
 
 		gy_pgrep 
 		[ -n "$GLOB_PGREP_PID" ] && kill $GLOB_PGREP_PID 2> /dev/null
@@ -215,7 +215,7 @@ case "$1" in
 			gy_pgrep 
 			
 			if [ -n "$GLOB_PGREP_PID" ]; then
-				printf "\n\t[ERROR]: Gyeeta Alert Action Handler process $GLOB_PGREP_PID not yet exited. Sending SIGKILL...\n\n"
+				printf "\n\t[ERROR]: Gyeeta Alert Agent process $GLOB_PGREP_PID not yet exited. Sending SIGKILL...\n\n"
 				kill -KILL $GLOB_PGREP_PID
 			fi	
 		fi	
@@ -229,11 +229,11 @@ case "$1" in
 
 	ps)
 
-		printf "\n\tPID status of Gyeeta Alert Action Handler package components : "
+		printf "\n\tPID status of Gyeeta Alert Agent package components : "
 
 		GLOB_PRINT_PID=1
 
-		printf "\n\n\tGyeeta Alert Action Handler PID(s) : "
+		printf "\n\n\tGyeeta Alert Agent PID(s) : "
 		gy_pgrep 
 		
 		if [ -n "$GLOB_PGREP_PID" ]; then

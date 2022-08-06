@@ -1,13 +1,13 @@
 
 'use strict';
 
-		require('dotenv').config()
-
 const 		process = require('process');
 const 		os = require('os');
 
+		require('dotenv').config({ path: process.env.CFG_ENV });
+
 if (process.argv.length === 3 && process.argv[2] === '--version') {
-	console.log("Alert Action Agent Version : ", require('./gyeeta_comm.js').NODE_VERSION_STR);
+	console.log("Alert Agent Version : ", require('./gyeeta_comm.js').NODE_VERSION_STR);
 	process.exit(0);
 }
 
@@ -30,7 +30,7 @@ const		gWebhook = require('./webhook_action.js');
 
 const		gidentifier = `${os.hostname()} PID ${process.pid} ${os.uptime()}`;
 
-console.log(`Gyeeta Alert Action Handler Starting now : Identifier used is ${gidentifier}`);
+console.log(`Gyeeta Alert Agent Starting now : Identifier used is ${gidentifier}`);
 
 const 		gyeetaHdlr = new GyeetaHandler(gyconfig.ShyamaHostArr, gyconfig.ShyamaPortArr, gidentifier, 1, 2, true /* is_action_conn */);
 
