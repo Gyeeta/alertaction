@@ -2,8 +2,6 @@
 
 FROM ubuntu:18.04
 
-LABEL description="This container provides the Gyeeta Alert Action Agent"
-
 LABEL org.opencontainers.image.description="This container provides the Gyeeta Alert Action Agent"
 
 LABEL usage="docker run -td --rm --name gyeetaAlertAction --read-only --env CFG_SHYAMA_HOSTS='[ \"shyama1.local\", \"shyama2.local\" ]' --env CFG_SHYAMA_PORTS='[ 10037, 10037 ]' <Alert Action Image>"
@@ -26,9 +24,9 @@ ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 RUN chmod 0755 /tini
 RUN if [ `sha256sum /tini | awk '{print $1}'` != "$TINI_SHA256" ]; then echo -e "ERROR : SHA256 of tini is different from expected value. Binary has changed. Please contact on Github.\n\n"; return 1; else return 0; fi
 
-COPY . /alertaction/
-
 RUN addgroup --gid 1001 gyeeta && adduser --system --no-create-home --uid 1001 --gid 1001 gyeeta
+
+COPY --chown=gyeeta:gyeeta . /alertaction/
 
 USER gyeeta:gyeeta
 
