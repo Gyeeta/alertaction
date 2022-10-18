@@ -21,7 +21,7 @@ if [ $? -ne 0 ]; then
 	exit 1
 fi
 
-rm -Rf $ODIR/{.git,buildcontainer.sh,Dockerfile,container_alertaction.sh,install.sh}
+rm -Rf $ODIR/{.git,buildcontainer.sh,Dockerfile,container_alertaction.sh,deployinstall.sh}
 
 echo -e "\nInstalled alertaction to $ODIR successfully...\n"
 
