@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/bin/bash -x
+
+shopt -s dotglob
 
 if [ -z "$1" ]; then
 	echo -e "\n\nUsage : $0 <Install Base Dir>\n\n"
@@ -13,6 +15,8 @@ if [ ! -d $ODIR ]; then
 	echo -e "\n\nERROR : Failed to create install dir $ODIR\n\n"
 	exit 1
 fi	
+
+rm -rf $ODIR 2> /dev/null	
 	
 cp -a . $ODIR
 
@@ -21,7 +25,7 @@ if [ $? -ne 0 ]; then
 	exit 1
 fi
 
-rm -Rf $ODIR/{.git,buildcontainer.sh,Dockerfile,container_alertaction.sh,deployinstall.sh}
+rm -Rf $ODIR/{.git,.gitignore,buildcontainer.sh,Dockerfile,.dockerignore,container_alertaction.sh,deployinstall.sh}
 
 echo -e "\nInstalled alertaction to $ODIR successfully...\n"
 
