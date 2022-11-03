@@ -51,9 +51,9 @@ print_version()
 
 print_complete_set()
 {
-echo -e "\n\n		Complete Set of Options : \n"
+echo -en "\n\n		Complete Set of Options : \n"
 
-echo -e "	
+echo -en "	
 	ps 	restart 	start		stop 	version 
 
 	For Help on any option : please type 
@@ -68,7 +68,7 @@ echo -e "
 
 printusage()
 {
-echo -e "\n\n ------------------  Usage  -------------------\n"
+echo -en "\n\n ------------------  Usage  -------------------\n"
 print_start
 print_stop
 print_ps
@@ -103,7 +103,7 @@ gy_pgrep()
 	if [ -n "$IS_FOUND" ]; then
 		GLOB_PGREP_PID="$IS_FOUND"
 		if [ $GLOB_PRINT_PID -eq 1 ]; then
-			echo -e "$IS_FOUND"
+			echo -n "$IS_FOUND"
 		fi	
 	fi
 }
@@ -115,8 +115,8 @@ node_start_validate()
 
 	gy_pgrep
 	if [ -n "$GLOB_PGREP_PID" ]; then
-		echo -e "\nNOTE : Gyeeta Alert Agent component(s) already running : PID(s) $GLOB_PGREP_PID\n\n"
-		echo -e "Please run \"$0 restart\" if you need to restart the components...\n\n"
+		echo -en "\nNOTE : Gyeeta Alert Agent component(s) already running : PID(s) $GLOB_PGREP_PID\n\n"
+		echo -en "Please run \"$0 restart\" if you need to restart the components...\n\n"
 
 		exit 1
 	fi
@@ -137,10 +137,10 @@ if [ $? -eq 0 ]; then
 fi
 
 if [ ! -f ./node ]; then 
-	echo -e "\n\nERROR : Binary node not found in dir $PWD. Please run from a proper install...\n\n"
+	echo -en "\n\nERROR : Binary node not found in dir $PWD. Please run from a proper install...\n\n"
 	exit 1
 elif [ ! -f ./gy_alertaction.js ] || [ ! -f ./gy_actionforever.js ]; then
-	echo -e "\n\nERROR : Required files gy_alertaction.js or gy_actionforever.js not found in dir $PWD. Please run from a proper install...\n\n"
+	echo -en "\n\nERROR : Required files gy_alertaction.js or gy_actionforever.js not found in dir $PWD. Please run from a proper install...\n\n"
 	exit 1
 fi
 
@@ -163,7 +163,7 @@ case "$1" in
 			do	
 				print_"$opt" 2> /dev/null
 				if [ $? -ne 0 ]; then
-					echo -e "\nERROR : Invalid Option $opt...\n\n"
+					echo -en "\nERROR : Invalid Option $opt...\n\n"
 					exit 1
 				fi
 
@@ -177,7 +177,7 @@ case "$1" in
 
 		node_start_validate
 
-		echo -e "\n\tStarting Gyeeta Alert Agent components...\n\n"
+		echo -en "\n\tStarting Gyeeta Alert Agent components...\n\n"
 
 		shift 1
 
@@ -188,11 +188,11 @@ case "$1" in
 		fi	
 
 		if [ -n "$GY_FOREGROUND" ]; then
-			echo -e "\nRunning Alert Agent in foreground as GY_FOREGROUND env set...\n"
+			echo -en "\nRunning Alert Agent in foreground as GY_FOREGROUND env set...\n"
 
 			exec ./node ./gy_actionforever.js "$@" 
 
-			echo -e "\n\nERROR : Failed to execute Gyeeta Alert Agent node process. Exiting...\n"
+			echo -en "\n\nERROR : Failed to execute Gyeeta Alert Agent node process. Exiting...\n"
 			exit 1
 		fi
 
@@ -204,7 +204,7 @@ case "$1" in
 
 		gy_pgrep 
 		if [ -z "$GLOB_PGREP_PID" ]; then
-			echo -e "\n\tERROR : Gyeeta Alert Agent process not running. Please check log for ERRORs if no errors already printed...\n\n"
+			echo -en "\n\tERROR : Gyeeta Alert Agent process not running. Please check log for ERRORs if no errors already printed...\n\n"
 			exit 1
 		fi
 
@@ -215,7 +215,7 @@ case "$1" in
 	
 	stop)
 
-		echo -e "\n\tStopping Gyeeta Alert Agent components : "
+		echo -en "\n\tStopping Gyeeta Alert Agent components : "
 
 		gy_pgrep 
 		[ -n "$GLOB_PGREP_PID" ] && kill $GLOB_PGREP_PID 2> /dev/null
@@ -226,12 +226,12 @@ case "$1" in
 			gy_pgrep 
 			
 			if [ -n "$GLOB_PGREP_PID" ]; then
-				echo -e "\n\t[ERROR]: Gyeeta Alert Agent process $GLOB_PGREP_PID not yet exited. Sending SIGKILL...\n\n"
+				echo -en "\n\t[ERROR]: Gyeeta Alert Agent process $GLOB_PGREP_PID not yet exited. Sending SIGKILL...\n\n"
 				kill -KILL $GLOB_PGREP_PID
 			fi	
 		fi	
 
-		echo -e "\n\n\tStopped all components successfully...\n\n"
+		echo -en "\n\n\tStopped all components successfully...\n\n"
 
 		exit 0
 
@@ -240,17 +240,17 @@ case "$1" in
 
 	ps)
 
-		echo -e "\n\tPID status of Gyeeta Alert Agent package components : "
+		echo -en "\n\tPID status of Gyeeta Alert Agent package components : "
 
 		GLOB_PRINT_PID=1
 
-		echo -e "\n\n\tGyeeta Alert Agent PID(s) : "
+		echo -en "\n\n\tGyeeta Alert Agent PID(s) : "
 		gy_pgrep 
 		
 		if [ -n "$GLOB_PGREP_PID" ]; then
-			echo -e "\n\n\n\tAll Components Running : Yes\n\n"
+			echo -en "\n\n\n\tAll Components Running : Yes\n\n"
 		else
-			echo -e "\n\n\n\tAll Components Running : No\n\n"
+			echo -en "\n\n\n\tAll Components Running : No\n\n"
 		fi	
 
 		exit 0
